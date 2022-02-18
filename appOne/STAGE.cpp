@@ -42,19 +42,40 @@ void STAGE::draw(){
     if (game()->characterManager()->whitePlayer()->life() <= 0 &&
         game()->characterManager()->blackPlayer()->life() <= 0)
         gameoverLogo(Stage.pinchImg,Stage.gameOverColor);
-    /*
-    if (game()->characterManager()->whiteKing()->hp() == 0) {
-        gameclearLogo(Stage.gameClearImg,Stage.stageClearColor, (width - 800) / 2, height /( 2 + 100));
-    }
-    if (game()->characterManager()->blackKing()->hp() == 0) {
-        gameclearLogo(Stage.gameClearImg, Stage.stageClearColor, (width - 800) / 2,height /(2 -100));
-    }
-    */
 #ifdef _DEBUG
-    fill(255);
-    printSize(50);
-    print(game()->characterManager()->whitePlayer()->life());
-    print(game()->characterManager()->blackPlayer()->life());
+    game()->characterManager()->blackKing()->deth();
+    fill(50);
+    float size = 50;
+    textSize(size);
+    switch (game()->characterManager()->whitePlayer()->life())
+    {
+    case 3:text("残機3", 900, 50); break;
+    case 2:text("残機2", 900,50); break;
+    case 1:text("残機1", 900, 50); break;
+    default:text("負け犬", 900, 50); break;
+    }
+    switch (game()->characterManager()->blackPlayer()->life())
+    {
+    case 3:text("残機3", 900, 500); break;
+    case 2:text("残機2", 900, 500); break;
+    case 1:text("残機1", 900, 500); break;
+    default:text("負け犬", 900, 500); break;
+    }
+    fill(128);
+    float w = 40.0f;
+    float h = 45.0f;
+    rect(0, 0, game()->container()->data().wplayerChara.hp * w, h);
+    rect(0, 450, game()->container()->data().bplayerChara.hp*w,h);
+    fill(3, 252, 40);
+    rect(0, 0, game()->characterManager()->whitePlayer()->hp() *w, h);
+    rect(0, 450, game()->characterManager()->blackPlayer()->hp()*w , h);
+    fill(58, 110,194);
+    for (int i = 0;i < game()->characterManager()->blackPlayer()->bullets();i++) {
+        rect(500.0f+10.0f*i, 450, 5.0f, h);
+    }
+    for (int i = 0;i < game()->characterManager()->whitePlayer()->bullets();i++) {
+        rect(500.0f + 10.0f * i, 0, 5.0f, h);
+    }
 #endif
 }
 void STAGE::BackGround(){

@@ -18,7 +18,7 @@ void CHARACTER::cmap() {
 		Chara.camp = game()->whiteWorld();
 	}
 }
-void CHARACTER::init() {//
+void CHARACTER::init(){//
 	Chara.hp = 0;
 }
 void CHARACTER::appear(float wx, float wy, float vx, float vy) {//

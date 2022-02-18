@@ -24,18 +24,13 @@ void WHITE_STAGE::init() {
     WBf = WBF_ID::STAGE_W1;
 }
 void WHITE_STAGE::loopinit() {
-    WhiteStage.nextWToTime = game()->container()->data().whiteStage.nextWToTime;
-    WhiteStage.loopWToTime = game()->container()->data().whiteStage.loopWToTime;
     game()->characterManager()->bulletLoopInit(CHARACTER::CAMP_ID::WHITE_ID);
     game()->whiteWorld()->init();
     game()->characterManager()->initw();
     game()->fade()->whiteInTrigger();
+    WhiteStage.nextWToTime = game()->container()->data().whiteStage.nextWToTime;
+    WhiteStage.loopWToTime = game()->container()->data().whiteStage.loopWToTime;
 }
-//void WHITE_STAGE::proc() {
-//    update();
-//    draw();
-//    nextScene();
-//}
 void WHITE_STAGE::update() {
     game()->characterManager()->updatew();
     game()->whiteWorld()->update();
@@ -89,11 +84,13 @@ void WHITE_STAGE::nextScene() {
         if (game()->characterManager()->whitePlayer()->state() == WHITE_PLAYER::STATE::SURVIVED) {
             if (WBf == WBF_ID::STAGE_W1) {
                 WBf = WBF_ID::STAGE_W2;
+                //game()->characterManager()->whitePlayer()->Reward();
                 game()->whiteWorld()->change12();
                 loopinit();
             }
             else if (WBf == WBF_ID::STAGE_W2) {
                 WBf = WBF_ID::STAGE_W3;
+                //game()->characterManager()->whitePlayer()->Reward();
                 game()->whiteWorld()->change23();
                 loopinit();
             }

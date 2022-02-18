@@ -52,6 +52,7 @@ public:
     };
 protected:
     DATA Map;
+    char c = EXPLOSION_ID;
 public:
     MAP(class GAME* game);
     ~MAP();

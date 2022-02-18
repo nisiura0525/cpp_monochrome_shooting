@@ -20,6 +20,7 @@ void WHITE_PLAYER::appear(float wx, float wy, float vx, float vy) {
 	Chara.wx = wx;
 	Chara.wy = wy;
 	Chara.animId = WhitePlayer.rightAnimId;
+	WhitePlayer.bulletsR = WhitePlayer.bulletsM;
 	WhitePlayer.jumpFlag = 0;
 	State = STATE::STRUGGLING;
 }
@@ -30,14 +31,26 @@ void WHITE_PLAYER::update() {
 	CheckState();
 }
 void WHITE_PLAYER::Launch() {
-	if (isTrigger(KEY_SHIFT)) {
-		float vx = 1.0f;
-		if (Chara.animId == WhitePlayer.leftAnimId) {
-     	    vx = -1.0f;
+	if (isTrigger(MOUSE_LBUTTON)) {
+		if (WhitePlayer.bulletsR > 0) {
+			float vx = 1.0f;
+			if (Chara.animId == WhitePlayer.leftAnimId) {
+				vx = -1.0f;
+			}
+			float wx = Chara.wx + WhitePlayer.bulletOffsetX * vx;
+			float wy = Chara.wy;
+			game()->characterManager()->bulletAppear(WhitePlayer.bulletCharaId, wx, wy, Chara.campId, vx);
+			WhitePlayer.bulletsR--;
 		}
-		float wx = Chara.wx + WhitePlayer.bulletOffsetX * vx;
-		float wy = Chara.wy;
-		game()->characterManager()->bulletAppear(WhitePlayer.bulletCharaId, wx, wy,Chara.campId, vx);
+	}
+	if (isTrigger(MOUSE_RBUTTON)) WhitePlayer.bulletsR = 0;
+	if (WhitePlayer.bulletsR <= 0) {
+		if (WhitePlayer.CurTime <= 0) {
+			WhitePlayer.bulletsR = WhitePlayer.bulletsM;
+			WhitePlayer.CurTime = WhitePlayer.ReloadInterval;
+		}
+		else
+			WhitePlayer.CurTime -= delta;
 	}
 }
 void WHITE_PLAYER::Move() {

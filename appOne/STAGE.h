@@ -15,14 +15,16 @@ public:
         COLOR stageClearColor;
         float logoPx = 0;
         float logoPy = 0;
+        float tSize = 0;
+
     };
 private:
     DATA Stage;
     void BackGround();
     void gameoverLogo(int img, const COLOR& color);
-    void gameclearLogo(int img, const COLOR& color,float px,float py);
 public:
     STAGE(class GAME* game) : SCENE(game) {}
+    void gameclearLogo(int img, const COLOR& color,float px,float py);
     void create();
     void init();
     void proc();

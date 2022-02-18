@@ -22,6 +22,9 @@ void WHITE_KING::appear(float wx, float wy, float vx, float vy) {
     WhiteKing.damageTime = 0;
     WhiteKing.fallFlag = 0;
 }
+void WHITE_KING::init() {
+    Chara.hp = -1;
+}
 void WHITE_KING::update() {
     Move();
     CollisionWithMap();
@@ -45,16 +48,12 @@ void WHITE_KING::Summons() {
         game()->characterManager()->appear(MAP::CHARA_ID::WHITE_PAWN_ID, Chara.wx, Chara.wy, vx, 0);
     }
     if (WhiteKing.summonNumber == 3) {
-        game()->characterManager()->appear(MAP::CHARA_ID::WHITE_KNIGHT_ID, Chara.wx, Chara.wy, vx, 0);
-        game()->characterManager()->appear(MAP::CHARA_ID::WHITE_PAWN_ID, Chara.wx, Chara.wy, vx, 0);
-    }
-    if (WhiteKing.summonNumber == 4) {
         game()->characterManager()->appear(MAP::CHARA_ID::WHITE_ROOK_ID, Chara.wx, Chara.wy, vx, 0);
     }
-    if (WhiteKing.summonNumber == 5) {
+    if (WhiteKing.summonNumber == 4) {
         game()->characterManager()->appear(MAP::CHARA_ID::WHITE_BISHOP_ID, Chara.wx, Chara.wy, vx, 0);
     }
-    if (WhiteKing.summonNumber == 6) {
+    if (WhiteKing.summonNumber == 5) {
         game()->characterManager()->appear(MAP::CHARA_ID::WHITE_KNIGHT_ID, Chara.wx, Chara.wy, vx, 0);
     }
 }
@@ -69,14 +68,13 @@ void WHITE_KING::Move() {
     //左右にうごく
     if (WhiteKing.acCurTime <= 0) {
         Summons();
-        WhiteKing.summonNumber = random(0,6);
+        WhiteKing.summonNumber = random(0,5);
         WhiteKing.acCurTime = WhiteKing.acInterval;
     }
     else WhiteKing.acCurTime -= delta;
     Chara.wx += Chara.vx * ((Chara.speed + WhiteKing.ac) * delta);
 }
 void WHITE_KING::CollisionWithMap() {
-
     Chara.vx = 1;
     // マップチップにぶつかったらジャンプ
     if (WhiteKing.fallFlag == 0) {
@@ -110,6 +108,12 @@ void WHITE_KING::CollisionWithMap() {
         Chara.hp = 0;
     }
 }
+void WHITE_KING::draw() {
+    imageColor(Chara.color);
+    float px = Chara.wx - Chara.camp->wx();
+    float py = Chara.wy - Chara.camp->wy() -50;
+    image(Chara.img, px, py, Chara.angle, Chara.scale);
+}
 void WHITE_KING::ChangeColor() {
     //ダメージを受けたら瞬間だけ色を変える
     if (WhiteKing.damageTime > 0) {
@@ -124,9 +128,15 @@ void WHITE_KING::damage() {
     if (Chara.hp > 0) {
         WhiteKing.damageTime = WhiteKing.damageInterval;
         Chara.hp--;
-        if (Chara.hp == 0) {
-            game()->characterManager()->appear(WhiteKing.explosionCharaId,
-                Chara.wx, Chara.wy);
+    }
+}
+void WHITE_KING::deth() {
+    if (Chara.hp == 0) {
+        fill(50);
+        textSize(100);
+        if (Chara.hp <= 0) {
+            text("2P　白の勝ち", (width - 700) / 2, 200);
+            game()->stage()->gameclearLogo(game()->container()->data().stage.gameClearImg, game()->container()->data().stage.stageClearColor, (width - 800) / 2, height / (2 + 300));
         }
     }
 }

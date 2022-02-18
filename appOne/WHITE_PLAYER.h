@@ -14,6 +14,10 @@ public:
         float initVecDown = 0;
         float gravity = 0;
         char bulletCharaId = 0;
+        int bulletsR = 0;
+        int bulletsM = 0;
+        float ReloadInterval = 0;
+        float CurTime = 0;
         float bulletOffsetX = 0;
     };
     enum class STATE {
@@ -23,6 +27,7 @@ public:
 private:
     DATA WhitePlayer;
     STATE State = STATE::STRUGGLING;
+    //int* Relife = &WhitePlayer.ReLife;
 public:
     WHITE_PLAYER(class GAME* game) :CHARACTER(game) {}
     void create();
@@ -40,6 +45,8 @@ public:
     float overCenterVx();
     STATE state() { return State; }
     void resetState();
+    //void Reward() { *Relife += 1; }
     int life() { return WhitePlayer.ReLife; }
+    int bullets() { return WhitePlayer.bulletsR; }
 };
 

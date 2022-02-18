@@ -47,8 +47,6 @@ void CHARACTER_MANAGER::create() {
     TotalW += CharaMng.numWhiteRook;
     TotalW += CharaMng.numWhiteKnight;
     TotalW += CharaMng.numWhiteQueen;
-    /*
-    */
 
     BulletTotal = 0;
     BulletTotal += CharaMng.numPlayerBullets;

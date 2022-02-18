@@ -30,11 +30,6 @@ void BLACK_STAGE::loopinit() {
     BlackStage.nextBToTime = game()->container()->data().blackStage.nextBToTime;
     BlackStage.loopBToTime = game()->container()->data().blackStage.loopBToTime;
 }
-//void BLACK_STAGE::proc() {
-//    update();
-//    draw();
-//    nextScene();
-//}
 void BLACK_STAGE::update() {
     game()->characterManager()->updateb();
     game()->blackWorld()->update();
@@ -89,11 +84,13 @@ void BLACK_STAGE::nextScene() {
         if (game()->characterManager()->blackPlayer()->state() == BLACK_PLAYER::STATE::SURVIVED) {
             if (BBf == BBF_ID::STAGE_B1) {
                 BBf = BBF_ID::STAGE_B2;
+                //game()->characterManager()->blackPlayer()->Reward();
                 game()->blackWorld()->change12();
                 loopinit();
             }
             else if (BBf == BBF_ID::STAGE_B2) {
                 BBf = BBF_ID::STAGE_B3;
+               // game()->characterManager()->blackPlayer()->Reward();
                 game()->blackWorld()->change23();
                 loopinit();
             }

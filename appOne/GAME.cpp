@@ -36,7 +36,7 @@ GAME::~GAME() {
     delete Container;
 }
 void GAME::run() {
-    window(1400, 800, full);
+    window(1600, 900, full);
     hideCursor();
     
     Container->load();

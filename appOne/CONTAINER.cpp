@@ -80,6 +80,8 @@ void CONTAINER::CreateData() {
     Data.bplayer.initVecUp = -16.0f;
     Data.bplayer.initVecDown = 3.0f;
     Data.bplayer.gravity = 48;
+    Data.bplayer.bulletsM = 15;
+    Data.bplayer.ReloadInterval = 15.0f*0.16f;
     Data.bplayer.bulletOffsetX = 20.0f;
     Data.bplayer.bulletCharaId = MAP::PLAYER_BULLET_ID;
     // 黒ポーン
@@ -123,7 +125,7 @@ void CONTAINER::CreateData() {
     Data.blackRook.explosionCharaId = MAP::EXPLOSION_ID;
     //黒ビショップ
     Data.blackBishopChara.charaId = MAP::BLACK_BISHOP_ID;
-    Data.blackBishopChara.hp = 10;
+    Data.blackBishopChara.hp = 7;
     Data.blackBishopChara.campId = CHARACTER::BLACK_ID;
     Data.blackBishopChara.groupId = 1;//敵グループは1
     Data.blackBishopChara.offsetLeft = 10.0f;
@@ -147,7 +149,7 @@ void CONTAINER::CreateData() {
     Data.blackBishop.normalColor = COLOR(255, 255, 255);
     //黒ナイト
     Data.blackKnightChara.charaId = MAP::BLACK_KNIGHT_ID;
-    Data.blackKnightChara.hp = 5;
+    Data.blackKnightChara.hp = 4;
     Data.blackKnightChara.campId = CHARACTER::BLACK_ID;
     Data.blackKnightChara.speed = 2.50f * 60;
     Data.blackKnightChara.groupId = 1;//敵グループは1
@@ -228,12 +230,12 @@ void CONTAINER::CreateData() {
     Data.blackKingChara.charaId = MAP::BLACK_KING_ID;
     Data.blackKingChara.groupId = 1;//敵グループは1
     Data.blackKingChara.campId = CHARACTER::BLACK_ID;
-    Data.blackKingChara.hp = 4;
+    Data.blackKingChara.hp = 15;
     Data.blackKingChara.speed = 1.0f * 60;
-    Data.blackKingChara.offsetLeft = 10.0f;
-    Data.blackKingChara.offsetTop = 12.0f;
-    Data.blackKingChara.offsetRight = 40.0f;
-    Data.blackKingChara.offsetBottom = 40.0f;
+    Data.blackKingChara.offsetLeft = 10.0f*2;
+    Data.blackKingChara.offsetTop = 12.0f*2;
+    Data.blackKingChara.offsetRight = 40.0f*2;
+    Data.blackKingChara.offsetBottom = 40.0f*2;
     Data.blackKing.rightAnimId = 0;
     Data.blackKing.leftAnimId = 1;
     Data.blackKing.acInterval = 22.5f * 0.16f;
@@ -249,9 +251,9 @@ void CONTAINER::CreateData() {
     //ホワイト
     //2p
     Data.wplayerChara.charaId = MAP::WHITE_PLAYER_ID;
-    Data.wplayerChara.hp = 1;
+    Data.wplayerChara.hp = 10;
     Data.wplayerChara.campId = CHARACTER::WHITE_ID;
-    Data.wplayerChara.groupId = 1;//味方グループは0
+    Data.wplayerChara.groupId = 0;//味方グループは0
     Data.wplayerChara.speed = 3.4f * 60;
     Data.wplayerChara.offsetLeft = 10.0f;
     Data.wplayerChara.offsetTop = 1.0f;
@@ -264,6 +266,8 @@ void CONTAINER::CreateData() {
     Data.wplayer.initVecUp = -16.0f;
     Data.wplayer.initVecDown = 3.0f;
     Data.wplayer.gravity = 48;
+    Data.wplayer.bulletsM = 15;
+    Data.wplayer.ReloadInterval = 15.0f * 0.16f;
     Data.wplayer.bulletOffsetX = 20.0f;
     Data.wplayer.bulletCharaId = MAP::PLAYER_BULLET_ID;
     //白ポーン
@@ -307,7 +311,7 @@ void CONTAINER::CreateData() {
     Data.whiteRook.explosionCharaId = MAP::EXPLOSION_ID;
     //ホワイトビショップ
     Data.whiteBishopChara.charaId = MAP::WHITE_BISHOP_ID;
-    Data.whiteBishopChara.hp = 10;
+    Data.whiteBishopChara.hp = 7;
     Data.whiteBishopChara.campId = CHARACTER::WHITE_ID;
     Data.whiteBishopChara.groupId = 1;//敵グループは1
     Data.whiteBishopChara.offsetLeft = 10.0f;
@@ -331,7 +335,7 @@ void CONTAINER::CreateData() {
     Data.whiteBishop.normalColor = COLOR(255, 255, 255);
     //白ナイト
     Data.whiteKnightChara.charaId = MAP::WHITE_KNIGHT_ID;
-    Data.whiteKnightChara.hp = 5;
+    Data.whiteKnightChara.hp = 4;
     Data.whiteKnightChara.campId = CHARACTER::WHITE_ID;
     Data.whiteKnightChara.speed = 2.50f * 60;
     Data.whiteKnightChara.groupId = 1;//敵グループは1
@@ -409,7 +413,7 @@ void CONTAINER::CreateData() {
     Data.whiteKingChara.charaId = MAP::WHITE_KING_ID;
     Data.whiteKingChara.groupId = 1;//敵グループは1
     Data.whiteKingChara.campId = CHARACTER::WHITE_ID;
-    Data.whiteKingChara.hp = 4;
+    Data.whiteKingChara.hp = 20;
     Data.whiteKingChara.speed = 1.0f * 60;
     Data.whiteKingChara.offsetLeft = 10.0f;
     Data.whiteKingChara.offsetTop = 12.0f;
@@ -508,33 +512,30 @@ void CONTAINER::LoadGraphics() {
     Data.whiteMap.blockImg = loadImage("assets\\block.png");
     Data.whiteMap.goalImg = loadImage("assets\\goal.png");
 
-    Data.bplayerChara.anims = new ANIMS("assets\\player");
+    Data.bplayerChara.anims = new ANIMS("assets\\player2");
     Data.bplayerChara.animData.interval = 0.1f;
-    Data.blackPawnChara.anims = new ANIMS("assets\\pumpkin");
-    Data.blackPawnChara.animData.interval = 0.1f;
+    Data.blackPawnChara.img = loadImage("assets\\pawn.png");
     Data.blackRookChara.img = loadImage("assets\\blackRook.png");
-    Data.blackBishopChara.anim = new ANIM("assets\\bat\\0");
-    Data.blackBishopChara.animData.interval = 0.1f;
-    Data.blackKnightChara.anims = new ANIMS("assets\\pumpkin");
+    Data.blackBishopChara.img = loadImage("assets\\bishop.png");
+    Data.blackKnightChara.anims = new ANIMS("assets\\player2");
     Data.blackKnightChara.animData.interval = 0.1f;
-    Data.blackQueenChara.anims = new ANIMS("assets\\pumpkin");
-    Data.blackQueenChara.animData.interval = 0.1f;
-    Data.blackKingChara.anims = new ANIMS("assets\\player");
-    Data.blackKingChara.animData.interval = 0.1f;
 
-    Data.wplayerChara.anims = new ANIMS("assets\\player");
+    Data.blackQueenChara.img = loadImage("assets\\queen.png");
+
+    Data.blackKingChara.img = loadImage("assets\\black_king.png");
+
+    Data.wplayerChara.anims = new ANIMS("assets\\player2");
     Data.wplayerChara.animData.interval = 0.1f;
-    Data.whitePawnChara.anims = new ANIMS("assets\\pumpkin");
-    Data.whitePawnChara.animData.interval = 0.1f;
+    Data.whitePawnChara.img = loadImage("assets\\pawn.png");
     Data.whiteRookChara.img = loadImage("assets\\blackRook.png");
-    Data.whiteBishopChara.anim = new ANIM("assets\\bat\\0");
-    Data.whiteBishopChara.animData.interval = 0.1f;
-    Data.whiteKnightChara.anims = new ANIMS("assets\\pumpkin");
+    Data.whiteBishopChara.img = loadImage("assets\\bishop.png");
+    Data.whiteKnightChara.anims = new ANIMS("assets\\player2");
     Data.whiteKnightChara.animData.interval = 0.1f;
-    Data.whiteQueenChara.anims = new ANIMS("assets\\pumpkin");
-    Data.whiteQueenChara.animData.interval = 0.1f;
-    Data.whiteKingChara.anims = new ANIMS("assets\\player");
-    Data.whiteKingChara.animData.interval = 0.1f;
+
+    Data.whiteQueenChara.img = loadImage("assets\\queen.png");
+
+    Data.whiteKingChara.img = loadImage("assets\\black_king.png");
+
 
     Data.bishopBulletChara.img = loadImage("assets\\batBullet.png");
     Data.queenBulletChara.img = loadImage("assets\\batBullet.png");

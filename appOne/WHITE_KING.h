@@ -10,7 +10,7 @@ public:
         int   fallFlag = 0;
         int   jumpFlag = 0;
         float curWx = 0;
-        float initVecUp;
+        float initVecUp=0;
         float initVecX = 0;
         float initVecY = 0;
         float ac = 1;
@@ -31,13 +31,16 @@ public:
     WHITE_KING(class GAME* game) :CHARACTER(game) {}
     void create();
     void appear(float wx, float wy, float vx, float vy);
+    void init();
     void update();
+    void deth();
 private:
     void Move();
     void Summons();
     void CollisionWithMap();
     void ChangeColor();
     void damage();
+    void draw();
 public:
     int hp() { return Chara.hp; }
 };

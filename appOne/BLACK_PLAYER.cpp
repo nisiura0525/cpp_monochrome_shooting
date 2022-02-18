@@ -18,6 +18,8 @@ void BLACK_PLAYER::appear(float wx, float wy, float vx, float vy) {
     Chara.wy = wy;
     Chara.animId = BlackPlayer.rightAnimId;
     BlackPlayer.jumpFlag = 0;
+    BlackPlayer.bulletsR = BlackPlayer.bulletsM;
+    BlackPlayer.CurTime = BlackPlayer.ReloadInterval;
     State = STATE::STRUGGLING;
 }
 void BLACK_PLAYER::resetState() {
@@ -33,11 +35,23 @@ void BLACK_PLAYER::update() {
 void BLACK_PLAYER::Launch() {
     //’e”­ŽË
     if (isTrigger(KEY_F)) {
-        float vx = 1.0f;
-        if (Chara.animId == BlackPlayer.leftAnimId) vx = -1.0f;
-        float wx = Chara.wx + BlackPlayer.bulletOffsetX * vx;
-        float wy = Chara.wy;
-        game()->characterManager()->bulletAppear(BlackPlayer.bulletCharaId, wx, wy,Chara.campId, vx);
+        if (BlackPlayer.bulletsR > 0) {
+            float vx = 1.0f;
+            if (Chara.animId == BlackPlayer.leftAnimId) vx = -1.0f;
+            float wx = Chara.wx + BlackPlayer.bulletOffsetX * vx;
+            float wy = Chara.wy;
+            game()->characterManager()->bulletAppear(BlackPlayer.bulletCharaId, wx, wy, Chara.campId, vx);
+            BlackPlayer.bulletsR--;
+        }
+    }
+    if (isTrigger(KEY_R)) BlackPlayer.bulletsR = 0;
+    if (BlackPlayer.bulletsR <= 0) {
+        if (BlackPlayer.CurTime <= 0) {
+            BlackPlayer.bulletsR = BlackPlayer.bulletsM;
+            BlackPlayer.CurTime = BlackPlayer.ReloadInterval;
+        }
+        else
+            BlackPlayer.CurTime -= delta;
     }
 }
 void BLACK_PLAYER::Move() {
